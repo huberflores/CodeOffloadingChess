@@ -148,6 +148,10 @@ public class ChessView extends View {
 		return true;
 	}
 	
+	/**
+	 * Here the search algorithm should be called 
+	 * by creating a new instance of DecisionMove class 
+	 */
 	public void automaticBlackMove(){
 	
 		
