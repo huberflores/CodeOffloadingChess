@@ -1,2 +1,4 @@
-CodeOffloadingChess
-===================
+Chess Game with Code Offloading
+============================
+
+
