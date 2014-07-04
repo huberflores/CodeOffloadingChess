@@ -5,11 +5,13 @@ import java.util.Random;
 
 
 
-public class main {
+public class MiniMax {
 	
 	static int chess[];
 	final int maxValue=1000;
 	final static int minValue=-1000;
+	
+	
 	private static void setChessBoard()
 	{
 		int[][] initches = {{-3, -5, -4, -2, -1, -4, -5, -3},
@@ -35,6 +37,17 @@ public class main {
 		for (int i=0;i<8;i++)
 			for (int j=0;j<8;j++)
 				chess[j*8+i]=initches[i][j];
+	}
+	
+	
+	
+	public void setChessStatus(int [][] chessBoard){
+		
+		
+		chess = new int[64];
+		for (int i=0;i<8;i++)
+			for (int j=0;j<8;j++)
+				chess[j*8+i]=chessBoard[i][j];
 	}
 	
 	
@@ -279,6 +292,10 @@ public class main {
 		return value;
 	}
 	
+	
+	
+	
+	
 	public static void main(String[] args) {  
 	
 		setChessBoard();
@@ -306,7 +323,6 @@ public class main {
 		}
 	//	float[] step = minimax(chess,1,true);
 	//	System.out.println((int)(step[1])%8+","+(int)(step[1])/8+"->"+(int)(step[2])%8+","+(int)(step[2])/8);
-		
 	
 	}
 } 
