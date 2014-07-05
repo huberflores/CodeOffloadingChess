@@ -36,10 +36,12 @@ public abstract class ChessPiece {
 	/** stores our current row,col. */
 	private Location loc;
 	
+	private String name;
 	
-	public ChessPiece(int color, Location loc, ChessBoard cb) {
+	public ChessPiece(int color, Location loc, ChessBoard cb, String name) {
 		this.cb = cb;
 		this.loc = loc;
+		this.name = name;
 		switch (color) {
 		case BLACK: {
 			this.color = BLACK;
@@ -128,6 +130,10 @@ public abstract class ChessPiece {
 
 	public ChessBoard getBoard(){
 		return cb;
+	}
+	
+	public String getName(){
+		return name;
 	}
 	
 	

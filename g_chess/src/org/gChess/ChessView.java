@@ -3,6 +3,8 @@ package org.gChess;
 import java.util.ArrayList;
 import java.util.Random;
 
+import symlab.ust.hk.algorithm.MiniMax;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -88,6 +90,10 @@ public class ChessView extends View {
 		actionMode = SELECT_MODE;
 		whosTurn = WHITE_TURN;
 		selected = null;
+		
+		new Player().start();
+		
+	
 	}
 	
 	@Override
@@ -121,7 +127,7 @@ public class ChessView extends View {
 						if (whosTurn == WHITE_TURN) {
 							whosTurn = BLACK_TURN;
 							///Right after white turn finishes, then new black turn is active
-							
+						
 														
 						}
 						/*else{  
@@ -137,9 +143,10 @@ public class ChessView extends View {
 			}		 
 			invalidate();
 			
-			if (whosTurn == BLACK_TURN){
+			
+			/*if (whosTurn == BLACK_TURN){
 				automaticBlackMove();
-			}
+			}*/
 			
 			
 			Log.i("NOTICE", "invalidating...");
@@ -152,8 +159,53 @@ public class ChessView extends View {
 	 * Here the search algorithm should be called 
 	 * by creating a new instance of DecisionMove class 
 	 */
-	public void automaticBlackMove(){
 	
+	
+	class Player extends Thread {
+
+		public void run() {
+			// TODO Auto-generated method stub
+			
+			while (true){
+				
+				if (whosTurn==BLACK_TURN){
+					automaticBlackMove();
+				}
+			}
+			
+		}
+		
+		public void automaticBlackMove(){
+			
+			MiniMax alg = new MiniMax();
+			
+			int [][] chessBoard = cb.getChessBoard();
+			
+			float [] steps = alg.getSteps(chessBoard, 3);
+		
+			
+			int x1 = (int)(steps[1])/8;
+			int y1 = (int)(steps[1])%8;
+			Location origin = new Location (y1,x1);
+			
+			int x2 = (int)(steps[2])/8;
+			int y2 = (int)(steps[2])%8;
+			Location destine = new Location (y2,x2);
+			
+			ChessPiece auto = cb.getPieceAt(origin);
+			auto.moveTo(destine);
+			whosTurn = WHITE_TURN;
+			postInvalidate();
+
+		}
+		
+	}
+	
+	
+	/**
+	 * Naive method based on Random
+	 */
+	/*public void automaticBlackMove(){
 		
 		ArrayList<ChessPiece> pieces = cb.getPiecesByColor(ChessPiece.BLACK);
 		boolean pieceHasMoved=false;
@@ -178,11 +230,8 @@ public class ChessView extends View {
 			}
 			
 		}
-
-
-	}
-	
-	
+		
+	}*/
 	
 	
 		

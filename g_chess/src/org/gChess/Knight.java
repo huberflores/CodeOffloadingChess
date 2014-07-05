@@ -10,8 +10,8 @@ import android.graphics.drawable.BitmapDrawable;
 
 public class Knight extends ChessPiece {
 
-	public Knight(int color, Location loc, ChessBoard cb) {
-		super(color, loc, cb);
+	public Knight(int color, Location loc, ChessBoard cb, String name) {
+		super(color, loc, cb, name);
 		if (getColor() == ChessPiece.BLACK) {
 			loadImage(R.drawable.black_knight);
 		}

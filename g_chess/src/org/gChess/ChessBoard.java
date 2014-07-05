@@ -169,30 +169,30 @@ public class ChessBoard {
 	}
 	
 	private void initPieces() {
-		putPiece(new Rook(ChessPiece.BLACK, new Location(0,0), this), new Location(0,0));
-		putPiece(new Knight(ChessPiece.BLACK, new Location(0,1), this), new Location(0,1));
-		putPiece(new Bishop(ChessPiece.BLACK, new Location(0,2), this), new Location(0,2));
-		putPiece(new Queen(ChessPiece.BLACK, new Location(0,3), this), new Location(0,3));
-		putPiece(new King(ChessPiece.BLACK, new Location(0,4), this), new Location(0,4));
-		putPiece(new Bishop(ChessPiece.BLACK, new Location(0,5), this), new Location(0,5));
-		putPiece(new Knight(ChessPiece.BLACK, new Location(0,6), this), new Location(0,6));
-		putPiece(new Rook(ChessPiece.BLACK, new Location(0,7), this), new Location(0,7));
+		putPiece(new Rook(ChessPiece.BLACK, new Location(0,0), this, "Rook"), new Location(0,0));
+		putPiece(new Knight(ChessPiece.BLACK, new Location(0,1), this, "Knight"), new Location(0,1));
+		putPiece(new Bishop(ChessPiece.BLACK, new Location(0,2), this, "Bishop"), new Location(0,2));
+		putPiece(new Queen(ChessPiece.BLACK, new Location(0,3), this, "Queen"), new Location(0,3));
+		putPiece(new King(ChessPiece.BLACK, new Location(0,4), this, "King"), new Location(0,4));
+		putPiece(new Bishop(ChessPiece.BLACK, new Location(0,5), this, "Bishop"), new Location(0,5));
+		putPiece(new Knight(ChessPiece.BLACK, new Location(0,6), this, "Knight"), new Location(0,6));
+		putPiece(new Rook(ChessPiece.BLACK, new Location(0,7), this, "Rook"), new Location(0,7));
 		
 		for (int x = 0; x < 8; x++) {
-			putPiece(new Pawn(ChessPiece.BLACK, new Location(1,x),this), new Location(1,x));
+			putPiece(new Pawn(ChessPiece.BLACK, new Location(1,x),this, "Pawn"), new Location(1,x));
 		}
 
-		putPiece(new Rook(ChessPiece.WHITE, new Location(7,0), this), new Location(7,0));
-		putPiece(new Knight(ChessPiece.WHITE, new Location(7,1), this), new Location(7,1));
-		putPiece(new Bishop(ChessPiece.WHITE, new Location(7,2), this), new Location(7,2));
-		putPiece(new Queen(ChessPiece.WHITE, new Location(7,3), this), new Location(7,3));
-		putPiece(new King(ChessPiece.WHITE, new Location(7,4), this), new Location(7,4));
-		putPiece(new Bishop(ChessPiece.WHITE, new Location(7,5), this), new Location(7,5));
-		putPiece(new Knight(ChessPiece.WHITE, new Location(7,6), this), new Location(7,6));
-		putPiece(new Rook(ChessPiece.WHITE, new Location(7,7), this), new Location(7,7));
+		putPiece(new Rook(ChessPiece.WHITE, new Location(7,0), this, "Rook"), new Location(7,0));
+		putPiece(new Knight(ChessPiece.WHITE, new Location(7,1), this, "Knight"), new Location(7,1));
+		putPiece(new Bishop(ChessPiece.WHITE, new Location(7,2), this, "Bishop"), new Location(7,2));
+		putPiece(new Queen(ChessPiece.WHITE, new Location(7,3), this, "Queen"), new Location(7,3));
+		putPiece(new King(ChessPiece.WHITE, new Location(7,4), this, "King"), new Location(7,4));
+		putPiece(new Bishop(ChessPiece.WHITE, new Location(7,5), this, "Bishop"), new Location(7,5));
+		putPiece(new Knight(ChessPiece.WHITE, new Location(7,6), this, "Knight"), new Location(7,6));
+		putPiece(new Rook(ChessPiece.WHITE, new Location(7,7), this, "Rook"), new Location(7,7));
 
 		for (int x = 0; x < 8; x++) {
-			putPiece(new Pawn(ChessPiece.WHITE, new Location(6,x),this), new Location(6,x));
+			putPiece(new Pawn(ChessPiece.WHITE, new Location(6,x),this, "Pawn"), new Location(6,x));
 		}
 
 
@@ -226,5 +226,98 @@ public class ChessBoard {
 		
 	return pieces;
 	} 
+	
+	/**
+	 * 
+	 * @return
+	 * 1King
+	 * 2Queen
+	 * 3Rook
+     * 4Bishop
+     * 5Knight
+     * 6Pawn
+	 */
+	
+	private static int King = 1;
+	private static int Queen = 2;
+	private static int Rook = 3;
+	private static int Bishop = 4;
+	private static int Knight = 5;
+	private static int Pawn = 6;
+	
+	public int [][] getChessBoard(){
+		int [][] board = new int [ROWS] [COLS];
+		
+		for (int i = 0; i<ROWS; i++){
+			
+			for (int j = 0; j< COLS ; j++){
+				ChessSquare cs = (ChessSquare) grid[i][j];
+				
+				if (isOccupied(cs.getLocation())){
+					
+					if ((cs.getOccupant().getName() =="King") && (cs.getOccupant().getColor() == ChessPiece.BLACK)){
+						board [i][j] = (King)*-1;
+					}else{
+						if ((cs.getOccupant().getName() =="King") && (cs.getOccupant().getColor() == ChessPiece.WHITE)){
+							board [i][j] = King;
+						}
+					}
+					
+					if ((cs.getOccupant().getName() =="Queen") && (cs.getOccupant().getColor() == ChessPiece.BLACK)){
+						board [i][j] = (Queen)*-1;
+					}else{
+						if ((cs.getOccupant().getName() =="Queen") && (cs.getOccupant().getColor() == ChessPiece.WHITE)){
+							board [i][j] = Queen;
+						}
+					}
+					
+					if ((cs.getOccupant().getName() =="Rook") && (cs.getOccupant().getColor() == ChessPiece.BLACK)){
+						board [i][j] = (Rook)*-1;
+					}else{
+						if ((cs.getOccupant().getName() =="Rook") && (cs.getOccupant().getColor() == ChessPiece.WHITE)){
+							board [i][j] = Rook;
+						}
+					}
+					
+					if ((cs.getOccupant().getName() =="Bishop") && (cs.getOccupant().getColor() == ChessPiece.BLACK)){
+						board [i][j] = (Bishop)*-1;
+					}else{
+						if ((cs.getOccupant().getName() =="Bishop") && (cs.getOccupant().getColor() == ChessPiece.WHITE)){
+							board [i][j] = Bishop;
+						}
+					}
+					
+					if ((cs.getOccupant().getName() =="Knight") && (cs.getOccupant().getColor() == ChessPiece.BLACK)){
+						board [i][j] = (Knight)*-1;
+					}else{
+						if ((cs.getOccupant().getName() =="Knight") && (cs.getOccupant().getColor() == ChessPiece.WHITE)){
+							board [i][j] = Knight;
+						}
+					}
+					
+					if ((cs.getOccupant().getName() =="Pawn") && (cs.getOccupant().getColor() == ChessPiece.BLACK)){
+						board [i][j] = (Pawn)*-1;
+					}else{
+						if ((cs.getOccupant().getName() =="Pawn") && (cs.getOccupant().getColor() == ChessPiece.WHITE)){
+							board [i][j] = Pawn;
+						}
+					}
+					
+					
+				}else{
+					board [i][j] = 0;
+ 				}
+				
+				
+				
+			}
+		}
+		
+		
+		
+		return board;
+		
+	}
+	
 	
 }

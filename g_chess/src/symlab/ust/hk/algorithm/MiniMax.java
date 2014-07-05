@@ -3,43 +3,12 @@ package symlab.ust.hk.algorithm;
 import java.util.Random;
 
 
-
-
 public class MiniMax {
 	
-	static int chess[];
-	final int maxValue=1000;
-	final static int minValue=-1000;
-	
-	
-	private static void setChessBoard()
-	{
-		int[][] initches = {{-3, -5, -4, -2, -1, -4, -5, -3},
-							{-6, -6, -6, -6, -6, -6, -6, -6},
-							{0, 0, 0, 0, 0, 0, 0, 0},
-							{0, 0, 0, 0, 0, 0, 0, 0},
-							{0, 0, 0, 0, 0, 0, 0, 0},
-							{0, 0, 0, 0, 0, 0, 0, 0},
-							{6, 6, 6, 6, 6, 6, 6, 6},
-							{3, 5, 4, 2, 1, 4, 5, 3}
-							};
-		/*
-		 * 
-1King
-2Queen
-3Rook
-4Bishop
-5Knight
-6Pawn
-		 * 
-		 */
-		chess = new int[64];
-		for (int i=0;i<8;i++)
-			for (int j=0;j<8;j++)
-				chess[j*8+i]=initches[i][j];
-	}
-	
-	
+	int chess[];
+	int maxValue=1000;
+	int minValue=-1000;
+		
 	
 	public void setChessStatus(int [][] chessBoard){
 		
@@ -51,7 +20,7 @@ public class MiniMax {
 	}
 	
 	
-	private static int[] getPossibleMove(int x, int y, int[] board)
+	private int[] getPossibleMove(int x, int y, int[] board)
 	{
 		int pos = y*8+x;
 		int n = 0;
@@ -178,7 +147,7 @@ public class MiniMax {
 					int i=x+1,j=y;
 					
 					if (j==8) break;
-					//System.out.println("heelo+"+x+","+y+"->"+i+","+j+" "+board[j*8+i]);
+	
 					if(board[j*8+i]==0)
 					{
 						a[n]=j*8+i;
@@ -233,7 +202,9 @@ public class MiniMax {
 			re[i]=a[i];
 		return re;
 	}
-	private static float[] minimax(int chess[], int depth, boolean player)
+	
+	
+	private float[] minimax(int chess[], int depth, boolean player)
 	{
 		float[] value= new float[3];
 		
@@ -251,10 +222,10 @@ public class MiniMax {
 					if (((chess[pos]>=0)&&(!player))||((chess[pos]<=0)&&(player))) continue;
 					int move[] = getPossibleMove(i , j , chess);
 					int x = chess[pos];
-			//		System.out.println(i+","+j+" :"+chess[pos]);
+		
 					
 					for (int k=0;k<move.length;k++)
-				//	System.out.println("->"+(int)(move[k])%8+","+(int)(move[k])/8);
+		
 					
 					chess[pos]=0;
 					
@@ -293,36 +264,29 @@ public class MiniMax {
 	}
 	
 	
-	
-	
-	
-	public static void main(String[] args) {  
-	
-		setChessBoard();
+	public float[] getSteps(int [][] chessBoard, int depth){
 		
-		for (int i=0;i<8;i++)
-		{
-			for (int j=0;j<8;j++)
-				System.out.print(chess[j*8+i]+" ");
-			System.out.println();
-		}
+		setChessStatus(chessBoard);
 		
-		int count=10;
-		boolean swap = true;
-		while (count>0){
+		float[] step = null; 
+		
+		
+		boolean swap = false;
+		
 			
-		float[] step = minimax(chess,5,swap);
-		System.out.println((int)(step[1])/8+","+(int)(step[1])%8+"->"+(int)(step[2])/8+","+(int)(step[2])%8);
+		step = minimax(chess,depth,swap);
+		
 		chess[(int)step[2]]=chess[(int)step[1]];
 		chess[(int)step[1]]=0;
 		swap = !swap;
-		count--;
 		
 		
-		
-		}
-	//	float[] step = minimax(chess,1,true);
-	//	System.out.println((int)(step[1])%8+","+(int)(step[1])/8+"->"+(int)(step[2])%8+","+(int)(step[2])/8);
-	
+		return step;
 	}
+	
+	
+	
+	
+	
+	
 } 
