@@ -6,14 +6,15 @@ import java.io.*;
 import java.net.Inet4Address;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.util.List;
 
 
-public class NetworkManagerClient { 
+public class NetworkManagerClient {
     int portnum;
     Socket mysocket = null;
     InputStream in = null;
     OutputStream out = null;
+   
+    
     ObjectInputStream ois = null;
     ObjectOutputStream oos = null;
     byte []serverAddress =new byte[4];
@@ -40,9 +41,19 @@ public class NetworkManagerClient {
             in = mysocket.getInputStream();
             out = mysocket.getOutputStream();
 
-            oos = new ObjectOutputStream(out);
+            
+            //oos = new ObjectOutputStream(out);
+            oos = new ObjectOutputStream(new BufferedOutputStream(out));
+            oos.flush();
+            //ois = new ObjectInputStream(in);
+            ois =new ObjectInputStream(new BufferedInputStream(in));
+            
+            
+            
+            //oos = new ObjectOutputStream(new BufferedOutputStream(out));
+            //oos = new ObjectOutputStream(out);
 
-            ois = new ObjectInputStream(in);
+            //ois = new ObjectInputStream(in);
             return true;
         } catch (IOException ex) {
             callingparent.setResult(null, null);
@@ -65,36 +76,36 @@ public class NetworkManagerClient {
     class Sending implements  Runnable{
         Pack MyPack = null;
         ResultPack result = null;
- 
+
         public Sending(Pack MyPack) {
-            this.MyPack = MyPack; 
+            this.MyPack = MyPack;
         }
- 
+
 
         public void send(){
             Thread t = new Thread(this);
             t.start();
         }
 
-        
+        @Override
         public void run() {
             try {
 
-                oos.writeObject( MyPack );   
-                oos.flush();  
+                oos.writeObject( MyPack );
+                oos.flush();
 
-                result = (ResultPack) ois.readObject(); 
-                //List<String> timestamps = result.getTimeStamps();
+                result = (ResultPack) ois.readObject();
 
-                if((System.currentTimeMillis() - startTime) < NetInfo.waitTime){ 
+                if((System.currentTimeMillis() - startTime) < NetInfo.waitTime){
+                //if((System.nanoTime() - startTime)/1000000 < NetInfo.waitTime){
                     if(result == null)
                         callingparent.setResult(null, null);
                     else
                         callingparent.setResult(result.getresult(), result.getstate());
                 }
 
-                oos.close(); 
-                ois.close();  
+                oos.close();
+                ois.close();
 
                 in.close();
                 out.close();

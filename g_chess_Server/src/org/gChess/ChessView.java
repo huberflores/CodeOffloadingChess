@@ -179,8 +179,6 @@ public class ChessView extends View {
 		
 		public void automaticBlackMove(){
 			
-			//MiniMax alg = new MiniMax();
-			
 			MiniMaxRemote alg = new MiniMaxRemote();
 			
 			int [][] chessBoard = cb.getChessBoard();
