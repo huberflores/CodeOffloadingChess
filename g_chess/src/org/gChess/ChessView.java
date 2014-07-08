@@ -185,7 +185,7 @@ public class ChessView extends View {
 			
 			int [][] chessBoard = cb.getChessBoard();
 			
-			float [] steps = alg.getSteps(chessBoard, 1);
+			float [] steps = alg.getSteps(chessBoard, 3);
 		
 			
 			int x1 = (int)(steps[1])/8;
