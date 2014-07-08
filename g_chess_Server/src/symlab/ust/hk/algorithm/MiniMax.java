@@ -1,3 +1,12 @@
+/*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* Please send inquiries to huber AT ut DOT ee
+*/
+
 package symlab.ust.hk.algorithm;
 
 import java.util.Random;
@@ -248,7 +257,7 @@ public class MiniMax {
 							break;
 						}
 						Random r = new Random();
-						float ans =r.nextInt(500)+score - minimax(chess, depth-1, !player)[0]; 
+						float ans =r.nextInt(500)/1000.0f+score - minimax(chess, depth-1, !player)[0]; 
 						if (ans>value[0]) {
 											value[0] = ans;
 											value[1] = pos;

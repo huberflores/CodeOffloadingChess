@@ -1,8 +1,18 @@
+/*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* Please send inquiries to huber AT ut DOT ee
+*/
+
 package edu.ut.mobile.network;
 
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.net.*;
+import java.util.List;
 import java.lang.reflect.Method;
 
 
@@ -91,6 +101,8 @@ public class NetworkManagerServer {
         Object state = null;
         Class stateDType = null;
         Pack myPack = null;
+        
+        List<String> timestamps;
 
         public Receiving() {
         }
@@ -111,11 +123,15 @@ public class NetworkManagerServer {
                 paramValues = myPack.getparamValues();
                 state = myPack.getstate();
                 stateDType = myPack.getstateType();
+                timestamps = myPack.getTimeStamps();
+                
                 if (functionName != null && functionName.length() > 0) {
                     try {
 
                     	System.out.println("trying to load and execute");
                         Class cls = Class.forName(stateDType.getName());
+                        
+                        timestamps.add(processTime+",server1");
                         
                         /*System.out.println(""+stateDType.getName());
                         
@@ -138,6 +154,7 @@ public class NetworkManagerServer {
                         	System.out.println(resultado[1]);
                         
                         	ResultPack rp = new ResultPack(result, state);
+                        	rp.setTimeStamps(timestamps);
                         	System.out.println("Size in bytes: " + sizeInBytes(rp));
                         	oos.flush();
                         	oos.writeObject(rp);

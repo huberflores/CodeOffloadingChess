@@ -1,3 +1,12 @@
+/*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* Please send inquiries to huber AT ut DOT ee
+*/
+
 package edu.ut.mobile.network;
 
 import java.io.Serializable;
@@ -9,7 +18,7 @@ public class ResultPack implements Serializable{
     Object result = null;
     Object state = null;
     
-    //List<String> timestamps;
+    List<String> timestamps;
 
     public ResultPack(Object result, Object state) {
         this.result = result;
@@ -24,7 +33,7 @@ public class ResultPack implements Serializable{
         return state;
     }
     
-    /*public void setTimeStamps(List<String> timestamps){
+    public void setTimeStamps(List<String> timestamps){
     	timestamps.add(System.currentTimeMillis()+",server2");
     	this.timestamps = timestamps;
     	
@@ -33,7 +42,7 @@ public class ResultPack implements Serializable{
     public List<String> getTimeStamps(){
     	timestamps.add(System.currentTimeMillis()+",client2");
     	return timestamps;
-    }*/
+    }
     
 
 }
