@@ -10,6 +10,7 @@ import cs.mc.ut.ee.logic.MiniMaxRemote;
 import cs.mc.ut.ee.utilities.Commons;
 
 import symlab.ust.hk.algorithm.MiniMax;
+import symlab.ust.hk.database.DatabaseCommons;
 import symlab.ust.hk.database.DatabaseHandler;
 
 
@@ -209,7 +210,7 @@ public class ChessView extends View {
 			
 			double startTime = System.currentTimeMillis();
 			 
-			float [] steps = alg.getSteps(chessBoard, 4);
+			float [] steps = alg.getSteps(chessBoard, 1);
 		
 			
 			double finalTime = System.currentTimeMillis();
@@ -221,6 +222,13 @@ public class ChessView extends View {
 			Log.i("user, system, idle, cpu percentage", stats[0] + "," + stats[1] + "," + stats[2] + "," + stats[3]);
 			
 			dataEvent.getInstance().getDatabaseManager().saveData("Local processing", startTime, finalTime, (double) stats[0], (double) stats[1]);
+			
+			ArrayList<ChessPiece> pieces = cb.getPiecesByColor(ChessPiece.BLACK);
+			
+			if (pieces.size()==1){
+				extractDatabaseFile(new DatabaseCommons());
+			}
+			
 			
 			
 			int x1 = (int)(steps[1])/8;
@@ -237,7 +245,8 @@ public class ChessView extends View {
 			postInvalidate();
 
 		}
-		
+
+	
 	}
 	
 	
@@ -351,5 +360,15 @@ public class ChessView extends View {
 	    }
 	    return returnString;
 	}
+	
+	//Extract database        
+    public void extractDatabaseFile(DatabaseCommons db){	
+    	try {
+    		db.copyDatabaseFile();
+    	} catch (IOException e) {
+    		e.printStackTrace();
+    	}
+    }
+
 	
 }

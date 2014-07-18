@@ -1,3 +1,12 @@
+/*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* Please send inquiries to huber AT ut DOT ee
+*/
+
 package org.gChess.manager;
 
 import java.util.Arrays;
@@ -15,6 +24,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
+
+/**
+ * 
+ * @author Huber Flores
+ *
+ */
+
 
 public class MyEventContentProvider extends ContentProvider {
 

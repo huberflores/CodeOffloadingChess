@@ -1,8 +1,24 @@
+/*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* Please send inquiries to huber AT ut DOT ee
+*/
+
+
 package symlab.ust.hk.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+/**
+ * 
+ * @author Huber Flores
+ *
+ */
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 

@@ -57,22 +57,10 @@ public class gChess extends Activity {
         
         setContentView(cv);
         
-        //extractDatabaseFile(new DatabaseCommons());
        
     }
     
-    //Extract database    
-    
-    public void extractDatabaseFile(DatabaseCommons db){	
-    	try {
-    		db.copyDatabaseFile();
-    	} catch (IOException e) {
-    		e.printStackTrace();
-    	}
-    }
-
-
-    
+        
     
     
 }
