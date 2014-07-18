@@ -71,7 +71,7 @@ public class NetworkManagerServer {
             
             //ois = new ObjectInputStream(in);
 
-            System.out.println("connection established");
+            //System.out.println("connection established");
 
             waitforreceivingdata();
             return true;
@@ -144,23 +144,23 @@ public class NetworkManagerServer {
                         
                         try{
                         	
-                        	System.out.println("param1:" + (int[]) paramValues[0]);
-                        	System.out.println("param1:" + paramValues[1]);
-                        	System.out.println("param1:" +  paramValues[2]);
+                        	//System.out.println("param1:" + (int[]) paramValues[0]);
+                        	//System.out.println("param1:" + paramValues[1]);
+                        	//System.out.println("param1:" +  paramValues[2]);
                         	oos.flush();
                         	Object result = method.invoke(state, paramValues);
                         	float[] resultado = (float[]) result;
-                        	System.out.println(resultado[0]);
-                        	System.out.println(resultado[1]);
+                        	//System.out.println(resultado[0]);
+                        	//System.out.println(resultado[1]);
                         
                         	ResultPack rp = new ResultPack(result, state);
                         	rp.setTimeStamps(timestamps);
-                        	System.out.println("Size in bytes: " + sizeInBytes(rp));
+                        	//System.out.println("Size in bytes: " + sizeInBytes(rp));
                         	oos.flush();
                         	oos.writeObject(rp);
-                        	System.out.println("Object wrote it");
+                        	//System.out.println("Object wrote it");
                         	oos.flush(); 
-                        	System.out.println("Object executed and flushed: " + (System.currentTimeMillis() - processTime));
+                        	//System.out.println("Object executed and flushed: " + (System.currentTimeMillis() - processTime));
                         		
                         	
                           

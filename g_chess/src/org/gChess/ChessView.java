@@ -1,13 +1,20 @@
 package org.gChess;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Random;
 
 import cs.mc.ut.ee.logic.MiniMaxRemote;
+import cs.mc.ut.ee.utilities.Commons;
 
 import symlab.ust.hk.algorithm.MiniMax;
+import symlab.ust.hk.database.DatabaseHandler;
+
 
 import android.content.Context;
+
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -65,9 +72,16 @@ public class ChessView extends View {
 	
 	Context baseContext;
 	
+	DatabaseHandler dataEvent;
+	
+	
 	public ChessView(Context context, LinearLayout.LayoutParams params) {
 		
 		super(context);
+		
+		//database
+		dataEvent = DatabaseHandler.getInstance();
+        dataEvent.setContext(context);
 		
 		baseContext = context;
 				
@@ -94,6 +108,7 @@ public class ChessView extends View {
 		selected = null;
 		
 		new Player().start();
+		
 		
 	
 	}
@@ -179,14 +194,34 @@ public class ChessView extends View {
 		
 		public void automaticBlackMove(){
 			
+			/**
+			 * Local processing
+			 */
 			//MiniMax alg = new MiniMax();
 			
-			MiniMaxRemote alg = new MiniMaxRemote();
+			/**
+			 * Remote processing
+			 */
+			MiniMaxRemote alg = new MiniMaxRemote();  
 			
-			int [][] chessBoard = cb.getChessBoard();
+			int [][] chessBoard = cb.getChessBoard();  
 			
-			float [] steps = alg.getSteps(chessBoard, 3);
+			
+			double startTime = System.currentTimeMillis();
+			 
+			float [] steps = alg.getSteps(chessBoard, 4);
 		
+			
+			double finalTime = System.currentTimeMillis();
+			Log.i("Total time for local processing: ", (finalTime- startTime) + "");
+			Log.i("Battery level: ", Commons.batteryLevel + "");
+			
+			int [] stats = getCpuUsageStatistic();
+			
+			Log.i("user, system, idle, cpu percentage", stats[0] + "," + stats[1] + "," + stats[2] + "," + stats[3]);
+			
+			dataEvent.getInstance().getDatabaseManager().saveData("Local processing", startTime, finalTime, (double) stats[0], (double) stats[1]);
+			
 			
 			int x1 = (int)(steps[1])/8;
 			int y1 = (int)(steps[1])%8;
@@ -267,4 +302,54 @@ public class ChessView extends View {
 	private void initNewGame() {
 		//TODO
 	}
+	
+	public int[] getCpuUsageStatistic() {
+
+	    String tempString = executeTop();
+
+	    tempString = tempString.replaceAll(",", "");
+	    tempString = tempString.replaceAll("User", "");
+	    tempString = tempString.replaceAll("System", "");
+	    tempString = tempString.replaceAll("IOW", "");
+	    tempString = tempString.replaceAll("IRQ", "");
+	    tempString = tempString.replaceAll("%", "");
+	    for (int i = 0; i < 10; i++) {
+	        tempString = tempString.replaceAll("  ", " ");
+	    }
+	    tempString = tempString.trim();
+	    String[] myString = tempString.split(" ");
+	    int[] cpuUsageAsInt = new int[myString.length];
+	    for (int i = 0; i < myString.length; i++) {
+	        myString[i] = myString[i].trim();
+	        cpuUsageAsInt[i] = Integer.parseInt(myString[i]);
+	    }
+	    return cpuUsageAsInt;
+	}
+
+	private String executeTop() {
+	    java.lang.Process p = null;
+	    BufferedReader in = null;
+	    String returnString = null;
+	    try {
+	        p = Runtime.getRuntime().exec("top -n 1");
+	        in = new BufferedReader(new InputStreamReader(p.getInputStream()));
+	        while (returnString == null || returnString.contentEquals("")) {
+	            returnString = in.readLine();
+	        }
+	    } catch (IOException e) {
+	        Log.e("executeTop", "error in getting first line of top");
+	        e.printStackTrace();
+	    } finally {
+	        try {
+	            in.close();
+	            p.destroy();
+	        } catch (IOException e) {
+	            Log.e("executeTop",
+	                    "error in closing and destroying top process");
+	            e.printStackTrace();
+	        }
+	    }
+	    return returnString;
+	}
+	
 }
