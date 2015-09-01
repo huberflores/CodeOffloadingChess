@@ -205,7 +205,28 @@ public class ChessView extends View {
 			 */
 			MiniMaxRemote alg = new MiniMaxRemote();  
 			
-			int [][] chessBoard = cb.getChessBoard();  
+			//int [][] chessBoard = cb.getChessBoard();  
+			
+			/**
+			 * automatic board (play time)
+			 */
+			//int [][] chessBoard = cb.getChessBoard(); 
+			
+			/**
+			 * hard coded board
+			 * this is for experimenting purposes
+			 */ 
+					
+			int [][] chessBoard = {{0, -3, -4, -2, -1, -4, 0, -3}, 
+					{0, 0, -6, -6, -6, 0, -6, -6}, 
+					{-6, -6, 0, 0, 0, 0, 0, -5}, 
+					{-5, 0, 0, 5, 0, 0, 0, 0}, 
+					{0, 0, 6, 0, 6, -6, 0, 0}, 
+					{6, 6, 0, 6, 0, 6, 0, 6}, 
+					{0, 0, 0, 0, 0, 0, 6, 0}, 
+					{3, 0, 0, 2, 1, 4, 5, 3}
+					};
+			
 			
 			
 			double startTime = System.currentTimeMillis();

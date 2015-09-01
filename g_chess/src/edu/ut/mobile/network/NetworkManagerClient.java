@@ -15,7 +15,10 @@ import java.io.*;
 import java.net.Inet4Address;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.util.Iterator;
 import java.util.List;
+
+import android.util.Log;
 
 
 public class NetworkManagerClient { 
@@ -101,7 +104,17 @@ public class NetworkManagerClient {
                     else
                         callingparent.setResult(result.getresult(), result.getstate());
                 }
+                
+                /**  
+                 * change to database handler
+                 */
+                Iterator<String> i = timestamps.iterator();
+                while (i.hasNext()){
+                	System.out.println(i.next());
+                }
 
+                
+                
                 oos.close(); 
                 ois.close();  
 

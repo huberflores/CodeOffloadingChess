@@ -18,7 +18,7 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-public class gChess extends Activity {
+public class gChess extends Activity { 
     /** Called when the activity is first created. */ 
 	
 	

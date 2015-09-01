@@ -12,8 +12,12 @@ package edu.ut.mobile.network;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.net.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.lang.reflect.Method;
+
+import symlab.ust.hk.cache.tree.IntermediateTreeNode;
+import symlab.ust.hk.cache.tree.TreeManager;
 
 
 
@@ -125,6 +129,7 @@ public class NetworkManagerServer {
                 stateDType = myPack.getstateType();
                 timestamps = myPack.getTimeStamps();
                 
+                
                 if (functionName != null && functionName.length() > 0) {
                     try {
 
@@ -144,22 +149,59 @@ public class NetworkManagerServer {
                         
                         try{
                         	
-                        	//System.out.println("param1:" + (int[]) paramValues[0]);
+                        	/**
+                        	 * support for caching results
+                        	 */
+                        	boolean processed = TreeManager.getInstance().exists("cache");
+                        	
+                        	/**
+                        	 * cache using the parameters as key of the result can be possible
+                        	 */
+                        	//boolean processed = TreeManager.getInstance().exists(paramValues[0]);
+                        	
+                         	//System.out.println("param1:" + (int[]) paramValues[0]);
                         	//System.out.println("param1:" + paramValues[1]);
                         	//System.out.println("param1:" +  paramValues[2]);
-                        	oos.flush();
-                        	Object result = method.invoke(state, paramValues);
-                        	float[] resultado = (float[]) result;
-                        	//System.out.println(resultado[0]);
-                        	//System.out.println(resultado[1]);
-                        
-                        	ResultPack rp = new ResultPack(result, state);
-                        	rp.setTimeStamps(timestamps);
-                        	//System.out.println("Size in bytes: " + sizeInBytes(rp));
-                        	oos.flush();
-                        	oos.writeObject(rp);
-                        	//System.out.println("Object wrote it");
-                        	oos.flush(); 
+                        	
+                        	if (processed==true){
+                        		oos.flush();
+                        		IntermediateTreeNode node = TreeManager.getInstance().find("cache");
+                        		           		
+                        		ResultPack rp = new ResultPack(node.getResult().getresult(), node.getResult().getstate());
+                        		rp.setTimeStamps(timestamps);
+                        		
+                        		oos.flush();
+                        		oos.writeObject(rp);
+                                //System.out.println("Existent object was wrote it");
+                                oos.flush(); 
+                                //System.out.println("Object sent: " + (System.currentTimeMillis() - processTime));
+                        		
+                        	}else{
+                        		oos.flush();
+                        		Object result = method.invoke(state, paramValues);
+                        		ResultPack rp = new ResultPack(result, state);
+                        		rp.setTimeStamps(timestamps);
+                        		
+                        		//System.out.println("Size in bytes: " + sizeInBytes(rp));
+                        		oos.flush();
+                        		oos.writeObject(rp);
+                        		//System.out.println("Object wrote it");
+                        		oos.flush(); 
+                        		//System.out.println("Object executed and flushed: " + (System.currentTimeMillis() - processTime));
+                        		
+                        		if (TreeManager.getInstance().isEmpty()){
+                					TreeManager.getInstance().setRoot(new IntermediateTreeNode("cache", 
+                							new ResultPack(rp.getresult(), rp.getstate()))
+                							);
+                				}else{
+                					TreeManager.getInstance().getRoot().addChild(new IntermediateTreeNode("cache", 
+                							new ResultPack(rp.getresult(), rp.getstate()))
+                							);
+                				}
+                        		
+                        	}
+                        	
+                   
                         	//System.out.println("Object executed and flushed: " + (System.currentTimeMillis() - processTime));
                         		
                         	

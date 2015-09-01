@@ -7,6 +7,4 @@ public class Commons {
 	public static int batteryLevel;
 	
 	
-
-
 }
